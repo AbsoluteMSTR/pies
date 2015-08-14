@@ -137,7 +137,7 @@ if sys.version_info <= (3, 2):
 
                 def wrapper(*args, **kwds):
                     # Size limited caching that tracks accesses by recency
-                    key = make_key(args, kwds, typed) if kwds or typed else args
+                    key = make_key(args, kwds, typed)
                     with lock:
                         link = cache_get(key)
                         if link is not None:
@@ -174,6 +174,7 @@ if sys.version_info <= (3, 2):
                             # still adjusting the links.
                             root = nonlocal_root[0] = oldroot[NEXT]
                             oldkey = root[KEY]
+                            oldresult = root[RESULT]
                             root[KEY] = root[RESULT] = None
                             # Now update the cache dictionary.
                             del cache[oldkey]
